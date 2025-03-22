@@ -21,20 +21,20 @@ answers = [
 ]
 correct_answers_index = [1, 2, 0, 3, 1]
 score=0
-for _ in range(3):
-    question_index = random.randint(0, len(questions) - 1)
-    print(questions[question_index])
-    for i, answer in enumerate(answers[question_index]):
+questions_to_ask=random.choices(list(zip(questions, answers, correct_answers_index)), k=3)
+for question, answer_options, correct_index in questions_to_ask:
+    print(question)
+    for i, answer in enumerate(answer_options):
         print(f"{i + 1}. {answer}")
     for intento in range(2):
         user_answer = input("Respuesta: ")
         if user_answer.isdigit():
             user_answer = int(user_answer) - 1
-            if user_answer < 0 or user_answer >= len(answers[question_index]):
+            if user_answer < 0 or user_answer >= len(answer_options):
                 print("Respuesta no válida")
                 score -=0.5
                 sys.exit(1)
-            if user_answer == correct_answers_index[question_index]:
+            if user_answer == correct_index:
                 print("¡Correcto!")
                 score +=1
                 break
@@ -44,6 +44,6 @@ for _ in range(3):
             sys.exit(1)
     else:
         print("Incorrecto. La respuesta correcta es:")
-        print(answers[question_index][correct_answers_index[question_index]])
+        print(answer_options[correct_index])
     print()
 print(f"Puntaje final: {score}")
